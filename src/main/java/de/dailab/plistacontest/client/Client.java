@@ -23,13 +23,12 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+import nl.recsys.MostRecentRecommender;
+import nl.recsys.Recommender;
 import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jetty.server.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import de.dailab.plistacontest.client.ContestHandler;
-
 
 /**
  * The main class
@@ -80,7 +79,7 @@ public class Client {
         }
 
         // you might want to use a recommender
-        Object recommender = null;
+        Recommender recommender = null;
 
         try {
         	// initialize the recommender dynamically
@@ -88,10 +87,11 @@ public class Client {
             final Class<?> transformClass = Class.forName(args[1]);
             recommender = (Object) transformClass.newInstance();
             */
+            recommender = new MostRecentRecommender(logger);
         }
         catch (Exception e) {
             logger.error(e.getMessage());
-            throw new IllegalArgumentException("No recommender specified or recommender not avialable.");
+            throw new IllegalArgumentException("No recommender specified or recommender not available.");
         }
 
         // configure log4j

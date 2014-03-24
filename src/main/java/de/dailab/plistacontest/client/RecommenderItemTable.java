@@ -19,14 +19,15 @@ DEALINGS IN THE SOFTWARE.
 
 package de.dailab.plistacontest.client;
 
+import nl.shared.RecommenderItem;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.lucene.document.SetBasedFieldSelector;
 /*
-* Class to represent the table of items available to be recommended
+ * Class to represent the table of items available to be recommended
  */
 public class RecommenderItemTable {
 

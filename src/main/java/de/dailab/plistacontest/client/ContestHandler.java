@@ -27,6 +27,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import nl.recsys.Recommender;
+import nl.shared.RecommenderItem;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.json.simple.JSONObject;
@@ -44,8 +46,7 @@ import org.slf4j.LoggerFactory;
  * @author till, andreas
  * 
  */
-public class ContestHandler
-                extends AbstractHandler {
+public class ContestHandler extends AbstractHandler {
 
     /**
      * Define the default logger
@@ -60,7 +61,7 @@ public class ContestHandler
     /**
      * Define the default recommender, currently not used.
      */
-    private Object contestRecommender;
+    private Recommender contestRecommender;
 
 
     /**
@@ -68,10 +69,8 @@ public class ContestHandler
      * @param _properties
      * @param _contestRecommender
      */
-    public ContestHandler(final Properties _properties, final Object _contestRecommender) {
-
+    public ContestHandler(final Properties _properties, final Recommender _contestRecommender) {
         this.contestRecommender = _contestRecommender;
-
     }
 
     /**
@@ -122,7 +121,7 @@ public class ContestHandler
      * Method to handle incoming messages from the server.
      * 
      * @param messageType  the messageType of the incoming contest server message
-     * @param _jsonString  the incoming contest server message
+     * @param _jsonMessageBody  the incoming contest server message
      * @return the response to the contest server
      */
     private String handleMessage(final String messageType, final String _jsonMessageBody) {
@@ -149,8 +148,16 @@ public class ContestHandler
         		recommenderItemTable.handleItemUpdate(recommenderItem);
         	}
         	
-        	response = ";item_update successfull";
-        } 
+        	response = ";item_update successful";
+
+            this.contestRecommender.updateEvent(recommenderItem);
+        }
+
+        else if ("item_create".equalsIgnoreCase(messageType)) {
+            final RecommenderItem recommenderItem = RecommenderItem.parseItemUpdate(_jsonMessageBody);
+
+            this.contestRecommender.createEvent(recommenderItem);
+        }
         
         else if ("recommendation_request".equalsIgnoreCase(messageType)) {
 
@@ -168,6 +175,7 @@ public class ContestHandler
         			response = resultList.toString();
         		}
         		response = getRecommendationResultJSON(response);
+                response = this.contestRecommender.getRecommendationJSON(currentRequest);
         		
         	    // TODO? might handle the the request as impressions
         	} catch (Throwable t) {
@@ -198,6 +206,8 @@ public class ContestHandler
     		} else {
     			System.out.println("unknown event-type: " + eventNotificationType + " (message ignored)");
     		}
+
+            this.contestRecommender.notificationEvent(item);
             
         } else if ("error_notification".equalsIgnoreCase(messageType)) {
         	

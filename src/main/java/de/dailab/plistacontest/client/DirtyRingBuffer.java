@@ -197,5 +197,8 @@ public class DirtyRingBuffer<K, V> {
 		myMap.addValueByKey("User3", 100);
 		System.out.println(myMap);
 
-	}
+        System.out.println(myMap.getValuesByKey("User0", 3, new HashSet<Integer>()));
+        System.out.println(myMap.getValuesByKey("User1", 3, new HashSet<Integer>()));
+        System.out.println(myMap.getValuesByKey("User2", 6, new HashSet<Integer>()));
+    }
 }
