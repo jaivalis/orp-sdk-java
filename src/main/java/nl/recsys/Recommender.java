@@ -4,7 +4,6 @@ import nl.shared.RecommenderItem;
 import org.slf4j.Logger;
 
 import java.util.List;
-import java.util.Map;
 
 public abstract class Recommender {
 
@@ -19,7 +18,8 @@ public abstract class Recommender {
     public String getRecommendationJSON(RecommenderItem ri) {
         List<Long> recs = getRecommendations(ri);
 
-        this.logger.info(recs.toString());
+
+        System.out.println(recs);
         if (recs.size() == 0) {
             return "{" + "\"recs\": {" + "\"ints\": {\"3\": [] }" + "}}";
         }
