@@ -11,12 +11,7 @@ public class MostRecentRecommender extends Recommender {
 
     public MostRecentRecommender(Logger logger) {
         this.logger = logger;
-    }
-
-    protected Set<Integer> getRecommendations(final String _sessionID, int n) {
-        HashSet<Integer> ret = new HashSet<Integer>();
-
-        return ret;
+        this.domainTableMap = new HashMap<Long, DomainTable>();
     }
 
     @Override
@@ -24,7 +19,9 @@ public class MostRecentRecommender extends Recommender {
         if (ri == null || ri.getDomainID() == null) {
             return false;
         }
-        return this.domainTableMap.get(ri.getDomainID()).notificationEvent(ri);
+        Long domainID = ri.getDomainID();
+        handleColdStart(domainID);
+        return this.domainTableMap.get(domainID).notificationEvent(ri);
     }
 
     @Override
@@ -32,7 +29,9 @@ public class MostRecentRecommender extends Recommender {
         if (ri == null || ri.getDomainID() == null) {
             return false;
         }
-        return this.domainTableMap.get(ri.getDomainID()).updateEvent(ri);
+        Long domainID = ri.getDomainID();
+        handleColdStart(domainID);
+        return this.domainTableMap.get(domainID).updateEvent(ri);
     }
 
     @Override
@@ -40,7 +39,9 @@ public class MostRecentRecommender extends Recommender {
         if (ri == null || ri.getDomainID() == null) {
             return false;
         }
-        return this.domainTableMap.get(ri.getDomainID()).createEvent(ri);
+        Long domainID = ri.getDomainID();
+        handleColdStart(domainID);
+        return this.domainTableMap.get(domainID).createEvent(ri);
     }
 
     /**
@@ -50,13 +51,18 @@ public class MostRecentRecommender extends Recommender {
      */
     @Override
     protected List<Long> getRecommendations(RecommenderItem ri) {
-        Long domainID = ri.getDomainID();
-        if (domainID == null) {
+        if (ri == null || ri.getDomainID() == null) {
             return new ArrayList<Long>(0);
         }
-
-
+        Long domainID = ri.getDomainID();
+        handleColdStart(domainID);
         return this.domainTableMap.get(domainID).getMostRecent(ri);
+    }
+
+    private void handleColdStart(Long domainID) {
+        if (this.domainTableMap.get(domainID) == null) {
+            this.domainTableMap.put(domainID, new DomainTable());
+        }
     }
 
 }

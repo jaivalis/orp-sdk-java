@@ -88,6 +88,7 @@ public class Client {
             recommender = (Object) transformClass.newInstance();
             */
             recommender = new MostRecentRecommender(logger);
+            logger.info("Recommender constructed.");
         }
         catch (Exception e) {
             logger.error(e.getMessage());

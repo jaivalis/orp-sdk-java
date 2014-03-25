@@ -18,12 +18,10 @@ public abstract class Recommender {
     public String getRecommendationJSON(RecommenderItem ri) {
         List<Long> recs = getRecommendations(ri);
 
-
         System.out.println(recs);
         if (recs.size() == 0) {
             return "{" + "\"recs\": {" + "\"ints\": {\"3\": [] }" + "}}";
         }
-
         return "{" + "\"recs\": {" + "\"ints\": {" + "\"3\": " + recs + "}" + "}}";
     }
 

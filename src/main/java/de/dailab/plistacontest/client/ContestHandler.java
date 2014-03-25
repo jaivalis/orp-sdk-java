@@ -134,53 +134,50 @@ public class ContestHandler extends AbstractHandler {
 
         // define a response object 
         String response = null;
-        
-        // TODO handle "item_create"
 
+        System.out.println(messageType);
         // in a complex if/switch statement we handle the differentTypes of messages
         if ("item_update".equalsIgnoreCase(messageType)) {
             
         	// we extract itemID, domainID, text and the timeTime, create/update
         	final RecommenderItem recommenderItem = RecommenderItem.parseItemUpdate(_jsonMessageBody);
-        	
-        	// we mark this information in the article table
-        	if (recommenderItem.getItemID() != null) {
-        		recommenderItemTable.handleItemUpdate(recommenderItem);
-        	}
-        	
+//
+//        	// we mark this information in the article table
+//        	if (recommenderItem.getItemID() != null) {
+//        		recommenderItemTable.handleItemUpdate(recommenderItem);
+//        	}
+            this.contestRecommender.updateEvent(recommenderItem);
         	response = ";item_update successful";
 
-            this.contestRecommender.updateEvent(recommenderItem);
         }
 
         else if ("item_create".equalsIgnoreCase(messageType)) {
             final RecommenderItem recommenderItem = RecommenderItem.parseItemUpdate(_jsonMessageBody);
-
             this.contestRecommender.createEvent(recommenderItem);
         }
         
         else if ("recommendation_request".equalsIgnoreCase(messageType)) {
-
         	// we handle a recommendation request
-        	try {
-        	    // parse the new recommender request
-        		RecommenderItem currentRequest = RecommenderItem.parseRecommendationRequest(_jsonMessageBody);
-        		
-        		// gather the items to be recommended
-        		List<Long> resultList = recommenderItemTable.getLastItems(currentRequest);
-        		if (resultList == null) {
-        			response = "[]";
-        			System.out.println("invalid resultList");
-        		} else {
-        			response = resultList.toString();
-        		}
-        		response = getRecommendationResultJSON(response);
-                response = this.contestRecommender.getRecommendationJSON(currentRequest);
-        		
-        	    // TODO? might handle the the request as impressions
-        	} catch (Throwable t) {
-        		t.printStackTrace();
-        	}
+            RecommenderItem currentRequest = RecommenderItem.parseRecommendationRequest(_jsonMessageBody);
+//        	try {
+//        	    // parse the new recommender request
+//        		RecommenderItem currentRequest = RecommenderItem.parseRecommendationRequest(_jsonMessageBody);
+//
+//        		// gather the items to be recommended
+//        		List<Long> resultList = recommenderItemTable.getLastItems(currentRequest);
+//        		if (resultList == null) {
+//        			response = "[]";
+//        			System.out.println("invalid resultList");
+//        		} else {
+//        			response = resultList.toString();
+//        		}
+//        		response = getRecommendationResultJSON(response);
+//
+//        	    // TODO? might handle the the request as impressions
+//        	} catch (Throwable t) {
+//        		t.printStackTrace();
+//        	}
+            response = this.contestRecommender.getRecommendationJSON(currentRequest);
         }
         else if ("event_notification".equalsIgnoreCase(messageType)) {
         	

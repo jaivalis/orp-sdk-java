@@ -12,8 +12,7 @@ public class DomainTable {
         // check the item
         if (ri == null || ri.getItemID() == null || ri.getItemID() == 0L || ri.getDomainID() == null) {
             return false;
-        }
-        return true;
+        } return true;
     }
 
     public boolean updateEvent(RecommenderItem ri) {
@@ -65,12 +64,12 @@ public class DomainTable {
     public static void main(String[] args) {
         DomainTable dt = new DomainTable();
 
-        Long l = Long.valueOf(1);
-        dt.mostRecent.add( l );
-        l = Long.valueOf(2);
-        dt.mostRecent.add( l );
-        l = Long.valueOf(12);
-        dt.mostRecent.add( l );
+//        Long l = Long.valueOf(1);
+//        dt.mostRecent.add( l );
+//        l = Long.valueOf(2);
+//        dt.mostRecent.add( l );
+//        l = Long.valueOf(12);
+//        dt.mostRecent.add( l );
 
         dt.mostRecent.remove(Long.valueOf(3));
 
