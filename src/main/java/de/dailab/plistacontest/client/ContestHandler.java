@@ -141,7 +141,7 @@ public class ContestHandler extends AbstractHandler {
             
         	// we extract itemID, domainID, text and the timeTime, create/update
         	final RecommenderItem recommenderItem = RecommenderItem.parseItemUpdate(_jsonMessageBody);
-//
+
 //        	// we mark this information in the article table
 //        	if (recommenderItem.getItemID() != null) {
 //        		recommenderItemTable.handleItemUpdate(recommenderItem);
@@ -224,14 +224,10 @@ public class ContestHandler extends AbstractHandler {
     /**
      * Response handler.
      * 
-     * @param _response
-     *            {@link HttpServletResponse} object
-     * @param _breq
-     *            the initial request
-     * @param _text
-     *            response text
-     * @param _b
-     *            boolean to set whether the response text should be sent
+     * @param _response {@link HttpServletResponse} object
+     * @param _breq the initial request
+     * @param _text response text
+     * @param _b  boolean to set whether the response text should be sent
      * @throws IOException
      */
     private void response(HttpServletResponse _response, Request _breq, String _text, boolean _b)
@@ -244,7 +240,7 @@ public class ContestHandler extends AbstractHandler {
         if (_text != null && _b) {
             _response.getWriter().println(_text);
             if (_text != null && !_text.startsWith("handle")) {
-            	System.out.println("[SSSS] send response: " + _text);
+            	System.out.println("[response()] send response: " + _text);
             }
         }
     }

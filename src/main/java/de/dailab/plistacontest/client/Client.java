@@ -107,7 +107,7 @@ public class Client {
         final Server server = new Server(Integer.parseInt(properties.getProperty("plista.port", "8080")));
         server.setHandler(new ContestHandler(properties, recommender));
         logger.debug("Serverport " + server.getConnectors()[0].getPort());
-        
+
         // start
         server.start();
         server.join();

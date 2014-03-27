@@ -161,8 +161,7 @@ public class RecommenderItem {
 	/**
 	 * Setter for text. (convenience)
 	 * 
-	 * @param text
-	 *            the text.
+	 * @param text the text.
 	 */
 	public void setText(final String text) {
 		valuesByID.put(ITEM_TEXT_ID, text);
@@ -199,10 +198,8 @@ public class RecommenderItem {
 	 * @param numberOfRequestedResults
 	 *            the number of requested results.
 	 */
-	public void setNumberOfRequestedResults(
-			final Integer numberOfRequestedResults) {
-		valuesByID
-				.put(NUMBER_OF_REQUESTED_RESULTS_ID, numberOfRequestedResults);
+	public void setNumberOfRequestedResults(final Integer numberOfRequestedResults) {
+		valuesByID.put(NUMBER_OF_REQUESTED_RESULTS_ID, numberOfRequestedResults);
 	}
 
 	/**
@@ -295,7 +292,6 @@ public class RecommenderItem {
 	
 	/**
 	 * Getter for general values. Use the static members as key.
-	 * 
 	 * @return the value for the key. Might return null;
 	 */
 	public Object getValue(Integer key) {
