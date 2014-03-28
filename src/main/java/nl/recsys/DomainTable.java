@@ -6,7 +6,11 @@ import java.util.*;
 
 public class DomainTable {
 
-    private Stack mostRecent = new Stack<Long>();
+    private Stack mostRecent;
+
+    public DomainTable() {
+        this.mostRecent = new Stack();
+    }
 
     public boolean notificationEvent(RecommenderItem ri) {
         // check the item
